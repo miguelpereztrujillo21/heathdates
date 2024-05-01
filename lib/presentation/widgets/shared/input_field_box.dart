@@ -19,6 +19,7 @@ class InputFieldBox extends StatefulWidget {
 class _InputFieldBoxState extends State<InputFieldBox> {
   bool _obscureText = false;
   final textController = TextEditingController();
+  bool _validate = false;
 
   @override
   void initState() {
@@ -39,7 +40,7 @@ class _InputFieldBoxState extends State<InputFieldBox> {
       focusedBorder: outlineInputBorder,
       hintText: widget.hintText,
       filled: true,
-      fillColor: Colors.white,
+      fillColor: Theme.of(context).colorScheme.secondaryContainer,
       suffixIcon: widget.icon != null
           ? IconButton(
               icon: _obscureText ? widget.onClickIcon! : widget.icon!,
@@ -50,23 +51,24 @@ class _InputFieldBoxState extends State<InputFieldBox> {
               },
             )
           : null,
+      errorText: _validate ? 'El campo no puede estar vacío' : null,
     );
 
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 12.0),
-        child: TextFormField(
-          focusNode: focusNode,
-          decoration: inputDecoration,
-          controller: textController,
-          obscureText: _obscureText,
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 12.0),
+      child: TextFormField(
+        onTapOutside: ((event) {
+          focusNode.unfocus();
+        }),
+        focusNode: focusNode,
+        decoration: inputDecoration,
+        controller: textController,
+        obscureText: _obscureText,
+        onChanged: (value) {
+          setState(() {
+            _validate = value.isEmpty;
+          });
+        },
       ),
     );
   }
