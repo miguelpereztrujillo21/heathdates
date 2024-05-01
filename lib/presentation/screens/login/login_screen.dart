@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:healthdates/presentation/widgets/shared/input_field_box.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -13,7 +15,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 class _LoginView extends StatelessWidget {
-  const _LoginView({super.key});
+  const _LoginView();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,16 @@ class _LoginView extends StatelessWidget {
             const Image(
               image: AssetImage('assets/images/healtdates_top.PNG'),
             ),
-            const InputFieldBox(hintText: 'Usuario'),
             const InputFieldBox(
-                hintText: 'Contraseña', icon: Icon(Icons.visibility)),
+              hintText: 'Usuario',
+              obscureText: false,
+            ),
+            const InputFieldBox(
+              hintText: 'Contraseña',
+              icon: Icon(Icons.visibility),
+              onClickIcon: Icon(Icons.visibility_off),
+              obscureText: true,
+            ),
             SizedBox(
               width: 100,
               height: 50,

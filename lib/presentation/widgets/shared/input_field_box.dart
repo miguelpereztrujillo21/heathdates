@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
 
-class InputFieldBox extends StatelessWidget {
+class InputFieldBox extends StatefulWidget {
   final String hintText;
   final Icon? icon;
-  const InputFieldBox({super.key, required this.hintText, this.icon});
+  final Icon? onClickIcon;
+  final bool obscureText;
+  const InputFieldBox(
+      {super.key,
+      required this.hintText,
+      this.icon,
+      this.onClickIcon,
+      required this.obscureText});
+
+  @override
+  State<StatefulWidget> createState() => _InputFieldBoxState();
+}
+
+class _InputFieldBoxState extends State<InputFieldBox> {
+  bool _obscureText = false;
+  final textController = TextEditingController();
+
+  @override
+  void initState() {
+    _obscureText = widget.obscureText;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final textController = TextEditingController();
     final focusNode = FocusNode();
     final colors = Theme.of(context).colorScheme;
     final outlineInputBorder = UnderlineInputBorder(
@@ -16,24 +37,36 @@ class InputFieldBox extends StatelessWidget {
     var inputDecoration = InputDecoration(
       enabledBorder: outlineInputBorder,
       focusedBorder: outlineInputBorder,
-      hintText: hintText,
+      hintText: widget.hintText,
       filled: true,
       fillColor: Colors.white,
-      suffixIcon: icon != null
+      suffixIcon: widget.icon != null
           ? IconButton(
-              icon: icon!,
-              onPressed: () {},
+              icon: _obscureText ? widget.onClickIcon! : widget.icon!,
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
             )
           : null,
     );
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 12.0),
-      child: TextFormField(
-        onTapOutside: (event) => focusNode.unfocus(),
-        focusNode: focusNode,
-        decoration: inputDecoration,
-        controller: textController,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 12.0),
+        child: TextFormField(
+          focusNode: focusNode,
+          decoration: inputDecoration,
+          controller: textController,
+          obscureText: _obscureText,
+        ),
       ),
     );
   }
