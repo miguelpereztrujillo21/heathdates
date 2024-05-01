@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthdates/presentation/screens/home/home_screen.dart';
 import 'package:healthdates/presentation/widgets/shared/input_field_box.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -6,9 +7,16 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: _LoginView(),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: ConstrainedBox(
+            // Nuevo
+            constraints:
+                BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+            child: const _LoginView(),
+          ),
+        ),
       ),
     );
   }
@@ -45,7 +53,10 @@ class _LoginView extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  // Agrega tu lógica de manejo de clics aquí
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
                 },
                 child: const Text(
                   'Login',

@@ -20,6 +20,7 @@ class _InputFieldBoxState extends State<InputFieldBox> {
   bool _obscureText = false;
   final textController = TextEditingController();
   bool _validate = false;
+  final FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
@@ -29,7 +30,6 @@ class _InputFieldBoxState extends State<InputFieldBox> {
 
   @override
   Widget build(BuildContext context) {
-    final focusNode = FocusNode();
     final colors = Theme.of(context).colorScheme;
     final outlineInputBorder = UnderlineInputBorder(
         borderSide: BorderSide(color: colors.primary),
