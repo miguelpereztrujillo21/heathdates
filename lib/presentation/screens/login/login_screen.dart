@@ -72,3 +72,20 @@ class _LoginView extends StatelessWidget {
     );
   }
 }
+
+class _ErrorPasswordRequirements extends StatelessWidget {
+  const _ErrorPasswordRequirements();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+        child: Column(
+      children: [
+        Text('La contraseña debe tener al menos 8 caracteres'),
+        Text('La contraseña debe tener al menos un número'),
+        Text('La contraseña debe tener al menos una letra mayúscula'),
+        Text('La contraseña debe tener al menos una letra minúscula'),
+      ],
+    ));
+  }
+}

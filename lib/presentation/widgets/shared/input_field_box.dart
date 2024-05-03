@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthdates/constants/strings.dart';
 
 class InputFieldBox extends StatefulWidget {
   final String hintText;
@@ -51,7 +52,7 @@ class _InputFieldBoxState extends State<InputFieldBox> {
               },
             )
           : null,
-      errorText: _validate ? 'El campo no puede estar vacío' : null,
+      errorText: _validate ? Strings.errorEmptyField : null,
     );
 
     return Padding(
